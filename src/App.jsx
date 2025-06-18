@@ -69,12 +69,12 @@ const App = () => {
 
   const result = calculatePrice();
 
-  const sendWhatsApp = () => {
-    const message = Halo, berikut hasil perhitungan:\nNama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga};
-    const url = https://wa.me/?text=${encodeURIComponent(message)};
-    window.open(url, '_blank');
-    setToast('WhatsApp terbuka!');
-  };
+ const sendWhatsApp = () => {
+  const message = `Halo, berikut hasil perhitungan:\nNama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga}`;
+  const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+};
+
 
   const saveToGoogleSheet = async () => {
     setLoading(true);
