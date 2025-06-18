@@ -91,18 +91,19 @@ const App = () => {
   setToast('Export PDF berhasil!');
 };
 
-  const sendWhatsApp = () => {
+ const sendWhatsApp = () => {
   if (!form.telepon) {
     setToast('Nomor telepon belum diisi!');
     return;
   }
 
+  // Bersihkan input: hanya angka
+  const phoneNumber = form.telepon.replace(/\D/g, '');
+
+  // Pastikan awalan +62 (Indonesia)
+  const waNumber = phoneNumber.startsWith('62') ? phoneNumber : `62${phoneNumber.replace(/^0/, '')}`;
+
   const message = `Halo, berikut hasil perhitungan:\nNama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga}`;
-  const phoneNumber = form.telepon.replace(/\D/g, ''); // Hapus karakter non-digit
-
-  // Pastikan format nomor diawali kode negara (62 untuk Indonesia)
-  const waNumber = phoneNumber.startsWith('62') ? phoneNumber : `62${phoneNumber}`;
-
   const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
   setToast('WhatsApp terbuka!');
