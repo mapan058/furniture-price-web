@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const App = () => {
   const [form, setForm] = useState({
@@ -69,45 +69,22 @@ const App = () => {
 
   const result = calculatePrice();
 
- const exportPDF = () => {
-  const doc = new jsPDF();
+  const exportPDF = () => {
+    const content = Nama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga};
+    const blob = new Blob([content], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'hasil_perhitungan.pdf';
+    link.click();
+    setToast('Export PDF berhasil!');
+  };
 
-  doc.addImage('https://i.imghippo.com/files/jeLf8293ko.png', 'PNG', 10, 10, 50, 20); // Logo Mapan
-  doc.setFontSize(16);
-  doc.text('Hasil Perhitungan Mapan Interior', 10, 40);
-
-  doc.setFontSize(12);
-  doc.text(`Nama: ${form.nama}`, 10, 50);
-  doc.text(`Alamat: ${form.alamat}`, 10, 60);
-  doc.text(`Telepon: ${form.telepon}`, 10, 70);
-  doc.text(`Furniture: ${form.furniture}`, 10, 80);
-  doc.text(`Luas (m2): ${result.luas_m2}`, 10, 90);
-  doc.text(`Faktor Tebal: ${result.faktor_tebal}`, 10, 100);
-  doc.text(`Biaya Dasar: Rp ${result.biaya_dasar}`, 10, 110);
-  doc.text(`Biaya Tabletop: Rp ${result.biaya_tabletop}`, 10, 120);
-  doc.text(`Total Harga: Rp ${result.total_harga}`, 10, 130);
-
-  doc.save('hasil_perhitungan.pdf');
-  setToast('Export PDF berhasil!');
-};
-
- const sendWhatsApp = () => {
-  if (!form.telepon) {
-    setToast('Nomor telepon belum diisi!');
-    return;
-  }
-
-  // Bersihkan input: hanya angka
-  const phoneNumber = form.telepon.replace(/\D/g, '');
-
-  // Pastikan awalan +62 (Indonesia)
-  const waNumber = phoneNumber.startsWith('62') ? phoneNumber : `62${phoneNumber.replace(/^0/, '')}`;
-
-  const message = `Halo, berikut hasil perhitungan:\nNama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga}`;
-  const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank');
-  setToast('WhatsApp terbuka!');
-};
+  const sendWhatsApp = () => {
+    const message = Halo, berikut hasil perhitungan:\nNama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga};
+    const url = https://wa.me/?text=${encodeURIComponent(message)};
+    window.open(url, '_blank');
+    setToast('WhatsApp terbuka!');
+  };
 
   const saveToGoogleSheet = async () => {
     setLoading(true);
