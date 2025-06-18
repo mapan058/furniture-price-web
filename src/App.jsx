@@ -1,5 +1,4 @@
-
-import jsPDF from 'jspdf';
+import React from 'react';
 
 const App = () => {
   const [form, setForm] = useState({
