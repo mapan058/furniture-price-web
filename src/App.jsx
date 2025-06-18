@@ -69,17 +69,7 @@ const App = () => {
 
   const result = calculatePrice();
 
-  const exportPDF = () => {
-    const content = Nama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga};
-    const blob = new Blob([content], { type: 'application/pdf' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'hasil_perhitungan.pdf';
-    link.click();
-    setToast('Export PDF berhasil!');
-  };
-
-  const sendWhatsApp = () => {
+   const sendWhatsApp = () => {
     const message = Halo, berikut hasil perhitungan:\nNama: ${form.nama}\nAlamat: ${form.alamat}\nTelepon: ${form.telepon}\nFurniture: ${form.furniture}\nTotal Harga: Rp ${result.total_harga};
     const url = https://wa.me/?text=${encodeURIComponent(message)};
     window.open(url, '_blank');
